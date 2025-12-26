@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #panelWrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 20px;
+        }
+
+        #up,
+        #down {
+            display: block;
+            width: 500px;
+            /* border: none; */
+            padding: 3px;
+            margin: auto;
+        }
+
+        #container {
+            display: flex;
+            /* 横並びにする */
+            /* align-items: center; */
+            /* 高さを中央揃え */
+            justify-content: center;
+            /* 全体を中央揃え */
+            gap: 10px;
+            /* ボタンと panels の間隔 */
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #panels {
+            width: 500px;
+            /* height: 80%; */
+            background-color: #ddd;
+            border-radius: 20px;
+            aspect-ratio: 1;
+
+            position: relative;
+            overflow: hidden;
+            /* スクロールバー防止 */
+        }
+        #panels.zoomout {
+            transform: scale(0.35);
+        }
+
+        .row {
+            width: 90%;
+            /* height: 80%; */
+            /* background-color: yellow; */
+            aspect-ratio: 1;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .row.up {
+            transform: translate(-50%, -160%);
+            opacity: 0.4;
+        }
+        .row.nextUp {
+            transform: translate(-50%, -140%);
+            opacity: 0.4;
+        }
+
+        .row.down {
+            transform: translate(-50%, 60%);
+            opacity: 0.4;
+        }
+        .row.nextDown {
+            transform: translate(-50%, 40%);
+            opacity: 0.4;
+        }
+
+        .panel {
+            /* width: 100%; */
+            width: 80%;
+            /* height: 100%; */
+            aspect-ratio: 1;
+            background-color: white;
+            border-radius: 10px;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+            opacity: 1;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+
+            pointer-events: none;
+        }
+
+        /* 左右 */
+        .panel.left {
+            transform: translate(-180%, -50%);
+            opacity: 0.4;
+        }
+        .panel.nextLeft {
+            transform: translate(-160%, -50%);
+            opacity: 0.4;
+        }
+
+        .panel.right {
+            transform: translate(80%, -50%);
+            opacity: 0.4;
+        }
+        .panel.nextRight {
+            transform: translate(60%, -50%);
+            opacity: 0.4;
+        }
+
+        @media (max-width: 600px) {
+            #container {
+                gap: 5px;
+            }
+
+            #up,
+            #down {
+                width: 40px;
+                padding: 3px;
+            }
+
+            #left,
+            #right {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="panelWrapper">
+        <button id="up">↑</button>
+        <div id="container">
+            <button id="left">←</button>
+            <div id="panels">
+                <div class="row">
+                    <div style="position: relative; width: 100%; aspect-ratio: 1; pointer-events: none;">
+                        <div class="panel"><div style="margin: 50%;">1</div></div>
+                        <div class="panel nextRight"><div style="margin: 50%;">2</div></div>
+                        <div class="panel right"><div style="margin: 50%;">3</div></div>
+                        <div class="panel right"><div style="margin: 50%;">4</div></div>
+                        <div class="panel right"><div style="margin: 50%;">5</div></div>
+                    </div>
+                </div>
+                <div class="row nextDown">
+                    <div style="position: relative; width: 100%; aspect-ratio: 1; pointer-events: none;">
+                        <div class="panel"><div style="margin: 50%;">6</div></div>
+                        <div class="panel nextRight"><div style="margin: 50%;">7</div></div>
+                        <div class="panel right"><div style="margin: 50%;">8</div></div>
+                        <div class="panel right"><div style="margin: 50%;">9</div></div>
+                        <div class="panel right"><div style="margin: 50%;">10</div></div>
+                    </div>
+                </div>
+                <div class="row down">
+                    <div style="position: relative; width: 100%; aspect-ratio: 1; pointer-events: none;">
+                        <div class="panel"><div style="margin: 50%;">11</div></div>
+                        <div class="panel nextRight"><div style="margin: 50%;">12</div></div>
+                        <div class="panel right"><div style="margin: 50%;">13</div></div>
+                        <div class="panel right"><div style="margin: 50%;">14</div></div>
+                        <div class="panel right"><div style="margin: 50%;">15</div></div>
+                    </div>
+                </div>
+                <div class="row down">
+                    <div style="position: relative; width: 100%; aspect-ratio: 1; pointer-events: none;">
+                        <div class="panel"><div style="margin: 50%;">16</div></div>
+                        <div class="panel nextRight"><div style="margin: 50%;">17</div></div>
+                        <div class="panel right"><div style="margin: 50%;">18</div></div>
+                        <div class="panel right"><div style="margin: 50%;">19</div></div>
+                        <div class="panel right"><div style="margin: 50%;">20</div></div>
+                    </div>
+                </div>
+                <div class="row down">
+                    <div style="position: relative; width: 100%; aspect-ratio: 1; pointer-events: none;">
+                        <div class="panel"><div style="margin: 50%;">21</div></div>
+                        <div class="panel nextRight"><div style="margin: 50%;">22</div></div>
+                        <div class="panel right"><div style="margin: 50%;">23</div></div>
+                        <div class="panel right"><div style="margin: 50%;">24</div></div>
+                        <div class="panel right"><div style="margin: 50%;">25</div></div>
+                    </div>
+                </div>
+            </div>
+            <button id="right">→</button>
+        </div>
+        <button id="down">↓</button>
+    </div>
+    <script>
+        function aaa() {
+            // directions = [
+            //     document.querySelector("#up"),
+            //     document.querySelector("#down"),
+            //     document.querySelector("#left"),
+            //     document.querySelector("#right")
+            // ]
+
+            let directions = []
+            if (document.querySelector('.row.bottom')) directions.push(document.querySelector("#up"))
+            if (document.querySelector('.row.top')) directions.push(document.querySelector("#down"))
+            if (document.querySelector('.panel.left')) directions.push(document.querySelector("#right"))
+            if (document.querySelector('.panel.right')) directions.push(document.querySelector("#left"))
+
+            directions[Math.floor(Math.random() * directions.length)].click()
+        }
+        function bbb() {
+            directions = [
+                document.querySelector("#up"),
+                document.querySelector("#down"),
+                document.querySelector("#left"),
+                document.querySelector("#right")
+            ]
+
+            directions[Math.floor(Math.random() * directions.length)].click()
+        }
+        function ccc() {
+            let x = []
+            let y = []
+
+            if (document.querySelector('.row.nextDown')) y.push(document.querySelector("#down"))
+            if (document.querySelector('.row.nextUp')) y.push(document.querySelector("#up"))
+            if (document.querySelector('.row:not(.up):not(.nextUp):not(down):not(nextDown) .panel.nextLeft')) x.push(document.querySelector("#left"))
+            if (document.querySelector('.row:not(.up):not(.nextUp):not(down):not(nextDown) .panel.nextRight')) x.push(document.querySelector("#right"))
+            
+            if (Math.floor(Math.random() * 3)) x[Math.floor(Math.random() * x.length)].click()
+            if (Math.floor(Math.random() * 3)) y[Math.floor(Math.random() * y.length)].click()
+        }
+    </script>
+    <script>
+        let startX = 0;
+        let startY = 0;
+
+        const panels = document.querySelector('#panels');
+
+        panels.addEventListener('touchstart', e => {
+            const t = e.touches[0];
+            startX = t.clientX;
+            startY = t.clientY;
+        }, { passive: true });
+
+        panels.addEventListener('touchend', e => {
+            const t = e.changedTouches[0];
+            const dx = t.clientX - startX;
+            const dy = t.clientY - startY;
+            
+            if (40 < Math.abs(dx)) {
+                if (0 < dx) {
+                    document.querySelector('#left').click()
+                } else {
+                    document.querySelector('#right').click()
+                }
+            }
+
+            if (40 < Math.abs(dy)) {
+                if (0 < dy) {
+                    document.querySelector('#up').click()
+                } else {
+                    document.querySelector('#down').click()
+                }
+            }
+        })
+    </script>
+    <script>
+        const rows = document.querySelectorAll('.row');
+
+        document.querySelector('#up').onclick = () => {
+            //
+            const next = document.querySelector('.row.nextUp')
+            if (!next) return
+            next.classList.remove('nextUp')
+            
+            const up = document.querySelectorAll('.row.up')[document.querySelectorAll('.row.up').length - 1]
+            if (up) up.className = 'row nextUp'
+
+            const oldDown = document.querySelector('.row.nextDown')
+            if (oldDown) oldDown.className = 'row down'
+
+            const center = document.querySelectorAll('.row:not(.up):not(.nextUp):not(.down):not(.nextDown)')[document.querySelectorAll('.row:not(.up):not(.nextUp):not(.down):not(.nextDown)').length - 1]
+            center.classList.add('nextDown')
+        }
+
+        document.querySelector('#down').onclick = () => {
+            //
+            const next = document.querySelector('.row.nextDown')
+            if (!next) return
+            next.classList.remove('nextDown')
+            
+            const down = document.querySelectorAll('.row.down')[0]
+            if (down) down.className = 'row nextDown'
+
+            const oldUp = document.querySelector('.row.nextUp')
+            if (oldUp) oldUp.className = 'row up'
+
+            const center = document.querySelector('.row:not(.up):not(nextUp):not(.down):not(.nextDown)')
+            center.classList.add('nextUp')
+        }
+
+        document.querySelector('#left').onclick = () => {
+            //
+            const next = document.querySelector('.row:not(.top):not(.bottom) .panel.nextLeft')
+            if (!next) return
+            const rows = document.querySelectorAll('.row')
+            rows.forEach(row => {
+                const nextLeft = row.querySelector('.panel.nextLeft')
+                if (!nextLeft) return
+                nextLeft.classList.remove('nextLeft')
+                
+                const left = row.querySelectorAll('.panel.left')[row.querySelectorAll('.panel.left').length - 1]
+                if (left) left.className = 'panel nextLeft'
+
+                const oldRight = row.querySelector('.panel.nextRight')
+                if (oldRight) oldRight.className = 'panel right'
+
+                const center = row.querySelectorAll('.panel:not(.left):not(.nextLeft):not(.right):not(.nextRight)')[row.querySelectorAll('.panel:not(.left):not(.nextLeft):not(.right):not(.nextRight)').length - 1]
+                center.classList.add('nextRight')
+            })
+        }
+
+        document.querySelector('#right').onclick = () => {
+            //
+            const next = document.querySelector('.row:not(.top):not(.bottom) .panel.nextRight')
+            if (!next) return
+            const rows = document.querySelectorAll('.row')
+            rows.forEach(row => {
+                const nextRight = row.querySelector('.panel.nextRight')
+                if (!nextRight) return
+                nextRight.classList.remove('nextRight')
+                
+                const right = row.querySelectorAll('.panel.right')[0]
+                if (right) right.className = 'panel nextRight'
+
+                const oldLeft = row.querySelector('.panel.nextLeft')
+                if (oldLeft) oldLeft.className = 'panel left'
+
+                const center = row.querySelector('.panel:not(.left):not(.nextLeft):not(.right):not(.nextRight)')
+                center.classList.add('nextLeft')
+            })
+        }
+
+    </script>
+
+</body>
+
+</html>
